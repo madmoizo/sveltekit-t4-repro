@@ -1,0 +1,96 @@
+@import "tailwindcss";
+
+@theme {
+	/* OVERRIDE */
+	--default-transition-duration: 200ms;
+	--radius: 1rem;
+	--shadow: 0 4px 6px -1px var(--tw-shadow-color, rgb(0 0 0 / 0.1)),
+		0 2px 4px -2px var(--tw-shadow-color, rgb(0 0 0 / 0.1));
+
+	/* EXTEND */
+	--grid-template-columns-autofit: repeat(auto-fit, minmax(0, 1fr));
+	--radius-inherit: inherit;
+	--z-index-above: 1;
+	--z-index-max: 9999;
+
+	/* CUSTOM */
+	--color-font-light: #ffffffcc;
+	--color-primary: #ff7b57;
+	--color-primary-light-1: #ff9579;
+	--color-primary-light-2: #ffb09a;
+	--color-primary-dark-1: #e66f4e;
+	--color-primary-dark-2: #cc6246;
+	--color-secondary: #0a1423;
+	--color-secondary-light-1: #1e2841;
+	--color-secondary-light-2: #323e60;
+	--color-secondary-light-3: #41517d;
+	--color-secondary-light-4: #7882a0;
+
+	--spacing-content: 1.25rem;
+
+	--aspect-ratio-atc: 64 / 89;
+
+	--width-aside-large: 400px;
+	--spacing-aside-large: 400px;
+
+	--width-menu-desktop: 230px;
+	--spacing-menu-desktop: 230px;
+
+	--width-menu-tablet: 100px;
+	--spacing-menu-tablet: 100px;
+
+	/* env is to support iOS bottom bar */
+	--spacing-safe-area-inset-bottom: env(safe-area-inset-bottom, 0px);
+	--height-menu-mobile: 64px;
+	--height-menu-mobile-safe-area: calc(
+		var(--height-menu-mobile) + var(--spacing-safe-area-inset-bottom)
+	);
+	--spacing-menu-mobile-safe-area: var(--height-menu-mobile-safe-area);
+}
+
+html {
+	font-size: 16px; /* ensure consistency across devices */
+	background-color: var(--color-secondary);
+	color: var(--color-font-light);
+}
+
+/* force inertia on safari */
+@media (any-hover: none) {
+	* {
+		-webkit-overflow-scrolling: touch;
+	}
+}
+
+/* force opacity on firefox */
+input::placeholder,
+select::placeholder,
+textarea::placeholder {
+	opacity: 1;
+}
+
+/* consistent outline */
+:is(input, select, textarea):focus,
+*:focus-visible {
+	outline-style: solid;
+	outline-width: 3px;
+	outline-color: #ff7b57b3;
+	outline-offset: 0;
+}
+
+:is(input, select, textarea) {
+	border: 0px;
+}
+
+/* Not yet supported by tailwind */
+.position-area-top {
+	position-area: top;
+}
+.position-area-right {
+	position-area: right;
+}
+.position-area-bottom {
+	position-area: bottom;
+}
+.position-area-left {
+	position-area: left;
+}
