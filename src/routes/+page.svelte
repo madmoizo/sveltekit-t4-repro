@@ -1,1 +1,3 @@
-<h1>Welcome</h1>
+<script>
+ import "../app.css"
+</script>

@@ -1,11 +1,11 @@
 import { S as pop, Q as push } from "../../chunks/index.js";
-function _layout($$payload, $$props) {
+function Layout($$payload, $$props) {
   push();
-  const { children } = $$props;
+  let { children } = $$props;
   children($$payload);
   $$payload.out += `<!---->`;
   pop();
 }
 export {
-  _layout as default
+  Layout as default
 };
