@@ -1,6 +1,5 @@
 # Base sveltekit project to test tailwind 4
 
-1 - build the project
 ```bash
 npm ci
 npm run build
