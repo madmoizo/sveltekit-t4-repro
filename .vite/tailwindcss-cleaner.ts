@@ -17,11 +17,13 @@ export default function tailwindcssCleaner(): Plugin {
 							continue
 						}
 
-						const reg = new RegExp(`var\\(${customProperty}[,)]`, "g")
-						const used = file.source.match(reg)
+						const used = file.source.match(
+							new RegExp(`var\\(${customProperty}[,)]`, "g")
+						)
 						if (!used) {
-							const customPropertyDeclaration = new RegExp(`${customProperty}:.*?;`, "g")
-							file.source = file.source.replace(customPropertyDeclaration, "")
+							file.source = file.source.replace(
+								new RegExp(`${customProperty}:.*?;`, "g"), ""
+							)
 						}
 					}
 				}

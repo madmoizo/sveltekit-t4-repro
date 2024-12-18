@@ -1,5 +1,4 @@
-import { T as getContext, V as store_get, W as unsubscribe_stores, S as pop, Q as push } from "../../chunks/index.js";
-import "../../chunks/exports.js";
+import { g as getContext, c as pop, p as push } from "../../chunks/index.js";
 const CONTENT_REGEX = /[&<]/g;
 function escape_html(value, is_attr) {
   const str = String(value ?? "");
@@ -15,42 +14,38 @@ function escape_html(value, is_attr) {
   }
   return escaped + str.substring(last);
 }
-function get(key, parse = JSON.parse) {
-  try {
-    return parse(sessionStorage[key]);
-  } catch {
-  }
+function context() {
+  return getContext("__request__");
 }
-const SNAPSHOT_KEY = "sveltekit:snapshot";
-const SCROLL_KEY = "sveltekit:scroll";
-get(SCROLL_KEY) ?? {};
-get(SNAPSHOT_KEY) ?? {};
-const getStores = () => {
-  const stores = getContext("__svelte__");
-  return {
-    /** @type {typeof page} */
-    page: {
-      subscribe: stores.page.subscribe
-    },
-    /** @type {typeof navigating} */
-    navigating: {
-      subscribe: stores.navigating.subscribe
-    },
-    /** @type {typeof updated} */
-    updated: stores.updated
-  };
-};
 const page = {
-  subscribe(fn) {
-    const store = getStores().page;
-    return store.subscribe(fn);
+  get data() {
+    return context().page.data;
+  },
+  get error() {
+    return context().page.error;
+  },
+  get form() {
+    return context().page.form;
+  },
+  get params() {
+    return context().page.params;
+  },
+  get route() {
+    return context().page.route;
+  },
+  get state() {
+    return context().page.state;
+  },
+  get status() {
+    return context().page.status;
+  },
+  get url() {
+    return context().page.url;
   }
 };
 function Error$1($$payload, $$props) {
   push();
-  var $$store_subs;
-  $$payload.out += `<h1>${escape_html(store_get($$store_subs ??= {}, "$page", page).status)}</h1> <p>${escape_html(store_get($$store_subs ??= {}, "$page", page).error?.message)}</p>`;
-  if ($$store_subs) unsubscribe_stores($$store_subs);
+  $$payload.out += `<h1>${escape_html(page.status)}</h1> <p>${escape_html(page.error?.message)}</p>`;
   pop();
 }
 export {
