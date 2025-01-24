@@ -1,7 +1,18 @@
-# Base sveltekit project to test tailwind 4
+# Vite plugin tailwindcss cleaner
 
-```bash
-npm ci
-npm run build
+- Remove unused var in cascade. example:
+```css
+:root {
+  --unused-child: 10px; /* unused after the first pass -> removed on the second pass */
+  --unused-parent: var(--unused-child); /* unused -> removed on the first pass */
+}
 ```
-You can preview the production build with `npm run preview`.
+- Remove unused keyframes
+- Print basic logs
+![image](https://github.com/user-attachments/assets/d80172cf-4998-42fe-87b5-0552c46aef32)
+
+
+`normal` folder contains a base (sveltekit) project:
+[CSS output](https://github.com/madmoizo/sveltekit-t4-repro/blob/main/normal/.svelte-kit/output/client/_app/immutable/assets/2.D6LpQ2Rr.css): 17.3kb
+`optimized` folder contains a base (sveltekit) project using the plugin:
+[CSS output (optimized)](https://github.com/madmoizo/sveltekit-t4-repro/blob/main/optimized/.svelte-kit/output/client/_app/immutable/assets/2.D6LpQ2Rr.css): 4.06kb
