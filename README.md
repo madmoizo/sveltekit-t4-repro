@@ -1,5 +1,6 @@
 # Vite plugin tailwindcss cleaner
 
+- Remove unused keyframes
 - Remove unused var in cascade. example:
 ```css
 :root {
@@ -7,7 +8,6 @@
   --unused-parent: var(--unused-child); /* unused -> removed on the first pass */
 }
 ```
-- Remove unused keyframes
 - Print basic logs
 
 ![image](https://github.com/user-attachments/assets/d80172cf-4998-42fe-87b5-0552c46aef32)
