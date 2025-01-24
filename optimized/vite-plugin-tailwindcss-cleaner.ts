@@ -2,7 +2,7 @@ import type { Plugin } from "vite"
 
 export default function tailwindcssCleaner(): Plugin {
 	return {
-		name: "tailwindcss-cleaner",
+		name: "vite-plugin-tailwindcss-cleaner",
 		generateBundle(options, bundle) {
 			for (const [fileName, file] of Object.entries(bundle)) {
 				if (file.type === "asset" && fileName.endsWith(".css") && typeof file.source === "string") {
