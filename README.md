@@ -1,5 +1,9 @@
 # Vite plugin tailwindcss cleaner
 
+## How to use it
+- Copy/paste the [plugin file](https://github.com/madmoizo/sveltekit-t4-repro/blob/main/optimized/vite-plugin-tailwindcss-cleaner.ts) in your project
+- Add the plugin to your [vite config](https://github.com/madmoizo/sveltekit-t4-repro/blob/main/optimized/vite.config.ts)
+
 ## Features
 - Remove unused keyframes
 - Remove unused var in cascade. example:
