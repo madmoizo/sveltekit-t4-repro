@@ -9,6 +9,7 @@
 ```
 - Remove unused keyframes
 - Print basic logs
+
 ![image](https://github.com/user-attachments/assets/d80172cf-4998-42fe-87b5-0552c46aef32)
 
 
