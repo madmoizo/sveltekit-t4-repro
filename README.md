@@ -1,7 +1,7 @@
 # Vite plugin tailwindcss cleaner
 
 ## Why?
-Tailwind v4 as been released and the tailwind vite plugin does not (yet) purge automatically unused code (custom properties, keyframes).
+Tailwind v4 as been released and the tailwind vite plugin does not (yet) eliminate dead css (custom properties, keyframes).
 
 ## What does it do?
 - Remove unused keyframes
