@@ -1,8 +1,8 @@
 # Vite plugin tailwindcss cleaner
 
 ## How to use it
-- Copy/paste the [plugin file](https://github.com/madmoizo/sveltekit-t4-repro/blob/main/optimized/vite-plugin-tailwindcss-cleaner.ts) in your project
-- Add the plugin to your [vite config](https://github.com/madmoizo/sveltekit-t4-repro/blob/main/optimized/vite.config.ts)
+- Copy/paste the [plugin file](https://github.com/madmoizo/vite-plugin-tailwindcss-cleaner/blob/main/vite-plugin-tailwindcss-cleaner.ts) in your project
+- Add the plugin to your [vite config](https://github.com/madmoizo/vite-plugin-tailwindcss-cleaner/blob/main/vite.config.ts)
 
 ## Features
 - Remove unused keyframes
@@ -19,6 +19,6 @@
 
 ## Comparison
 - `normal` folder contains a base (sveltekit) project:
-  - [CSS output](https://github.com/madmoizo/sveltekit-t4-repro/blob/main/normal/.svelte-kit/output/client/_app/immutable/assets/2.D6LpQ2Rr.css): 17.3kb
+  - [CSS output](https://github.com/madmoizo/vite-plugin-tailwindcss-cleaner/blob/main/compare/.svelte-kit/output/client/_app/immutable/assets/2.D6LpQ2Rr.css): 17.3kb
 - `optimized` folder contains a base (sveltekit) project using the plugin:
-  - [CSS output (optimized)](https://github.com/madmoizo/sveltekit-t4-repro/blob/main/optimized/.svelte-kit/output/client/_app/immutable/assets/2.D6LpQ2Rr.css): 4.06kb
+  - [CSS output (optimized)](https://github.com/madmoizo/vite-plugin-tailwindcss-cleaner/blob/main/.svelte-kit/output/client/_app/immutable/assets/2.D6LpQ2Rr.css): 4.06kb
