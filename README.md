@@ -18,7 +18,7 @@
 ![image](https://github.com/user-attachments/assets/d80172cf-4998-42fe-87b5-0552c46aef32)
 
 ## Comparison
-- `normal` folder contains a base (sveltekit) project:
+- `compare` folder contains a base (sveltekit) project:
   - [CSS output](https://github.com/madmoizo/vite-plugin-tailwindcss-cleaner/blob/main/compare/.svelte-kit/output/client/_app/immutable/assets/2.D6LpQ2Rr.css): 17.3kb
-- `optimized` folder contains a base (sveltekit) project using the plugin:
+- root contains a base (sveltekit) project using the plugin:
   - [CSS output (optimized)](https://github.com/madmoizo/vite-plugin-tailwindcss-cleaner/blob/main/.svelte-kit/output/client/_app/immutable/assets/2.D6LpQ2Rr.css): 4.06kb
