@@ -26,4 +26,4 @@ Tailwind v4 as been released and the tailwind vite plugin does not (yet) purge a
 | CSS output | [17.3kb](https://github.com/madmoizo/vite-plugin-tailwindcss-cleaner/blob/main/compare/.svelte-kit/output/client/_app/immutable/assets/2.D6LpQ2Rr.css) | [4.06kb](https://github.com/madmoizo/vite-plugin-tailwindcss-cleaner/blob/main/.svelte-kit/output/client/_app/immutable/assets/2.D6LpQ2Rr.css) |
 
 ## Want to contribute?
-You can clone this repository in a [dev container](https://code.visualstudio.com/docs/devcontainers/containershttps://code.visualstudio.com/docs/devcontainers/containers)
+You can clone this repository in a [dev container](https://code.visualstudio.com/docs/devcontainers/containers)
