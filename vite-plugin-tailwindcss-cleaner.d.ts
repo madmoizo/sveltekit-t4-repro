@@ -1,5 +1,5 @@
 import type { Plugin } from "vite"
 
-declare module 'vite-plugin-tailwindcss-cleaner' {
-    export function tailwindcssCleaner(): Plugin
-}
+declare function tailwindcssCleaner(): Plugin
+
+export { tailwindcssCleaner as default }
