@@ -1,6 +1,4 @@
-import type { Plugin } from "vite"
-
-export default function tailwindcssCleaner(): Plugin {
+export default function tailwindcssCleaner() {
 	return {
 		name: "vite-plugin-tailwindcss-cleaner",
 		generateBundle(options, bundle) {

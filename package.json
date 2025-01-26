@@ -1,7 +1,10 @@
 {
-	"name": "sveltekit-t4-repro",
-	"version": "0.0.1",
+	"name": "vite-plugin-tailwindcss-cleaner",
+	"version": "0.0.0",
 	"type": "module",
+	"author": "Matthieu Dambrune <matthieu.dambrune@gmail.com>",
+	"license": "MIT",
+	"main": "vite-plugin-tailwindcss-cleaner.js",
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build",
