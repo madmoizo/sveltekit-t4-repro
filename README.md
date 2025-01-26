@@ -1,11 +1,11 @@
 # Vite plugin tailwindcss cleaner
 
 ## Why?
-Tailwind v4 as been released and the tailwind vite plugin does not (yet) eliminate dead css (custom properties, keyframes).
+Tailwind v4 as been released and the tailwind vite plugin does not (yet) eliminate dead css.
 
 ## What does it do?
-- Remove unused keyframes
 - Remove unused custom properties in cascade
+- Remove unused keyframes
 - Print basic logs
 
 ## How to use it?
@@ -16,6 +16,9 @@ Tailwind v4 as been released and the tailwind vite plugin does not (yet) elimina
 |            | No plugin | With plugin |     
 |------------|-----------|--------|
 | CSS output | [17.3kb](https://github.com/madmoizo/vite-plugin-tailwindcss-cleaner/blob/main/compare/.svelte-kit/output/client/_app/immutable/assets/2.D6LpQ2Rr.css) | [4.06kb](https://github.com/madmoizo/vite-plugin-tailwindcss-cleaner/blob/main/.svelte-kit/output/client/_app/immutable/assets/2.D6LpQ2Rr.css) |
+
+![image](https://github.com/user-attachments/assets/e022c34f-04ea-4e14-9395-d1f1b06c3c27)
+
 
 ## Want to contribute?
 You can clone this repository in a [dev container](https://code.visualstudio.com/docs/devcontainers/containers)
