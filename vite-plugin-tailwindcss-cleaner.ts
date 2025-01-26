@@ -9,18 +9,21 @@ export default function tailwindcssCleaner(): Plugin {
 					const logs = {}
 
 					// Remove unused custom properties
-					let loopCount = 0
+					let firstPass = true
+					let keepSearching = true
+					let detectedCustomPropertiesCount = 0
 					let removedCustomPropertiesCount = 0
 
-					do {
-						loopCount++
-						removedCustomPropertiesCount = 0
-						let detectedCustomPropertiesCount = 0
+					while (keepSearching) {
+						keepSearching = false
+						
 						const customProperties = file.source.matchAll(/(--[a-zA-Z0-9_-]+):/g)
-
 						if (customProperties) {
 							for (const [, customProperty] of customProperties) {
-								detectedCustomPropertiesCount++
+								if (firstPass) {
+									detectedCustomPropertiesCount++
+								}
+
 								// lightningcss polyfills light-dark function
 								// https://lightningcss.dev/transpilation.html
 								// We must preserve custom properties added by lightningcss to avoid side-effects
@@ -32,15 +35,18 @@ export default function tailwindcssCleaner(): Plugin {
 								if (!used) {
 									file.source = file.source.replace(new RegExp(`${customProperty}:.*?;`, "g"), "")
 									removedCustomPropertiesCount++
+									keepSearching = true
 								}
 							}
 						}
 
-						logs[`Custom properties: ${loopCount} pass`] = {
-							Total: detectedCustomPropertiesCount,
-							Unused: removedCustomPropertiesCount
-						}
-					} while (removedCustomPropertiesCount > 0)
+						firstPass = false
+					}
+
+					logs[`Custom properties`] = {
+						Total: detectedCustomPropertiesCount,
+						Removed: removedCustomPropertiesCount
+					}
 
 					// Remove unused keyframes
 					let detectedKeyframesCount = 0
@@ -63,7 +69,7 @@ export default function tailwindcssCleaner(): Plugin {
 
 					logs["Keyframes"] = {
 						Total: detectedKeyframesCount,
-						Unused: removedKeyframesCount
+						Removed: removedKeyframesCount
 					}
 
 					console.log("\x1b[34m%s\x1b[0m", `\n\n[plugin] Tailwindcss Cleaner`)
