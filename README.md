@@ -32,4 +32,4 @@ export default defineConfig({
 |------------|-----------|--------|
 | CSS output | [17.3kb](https://github.com/madmoizo/vite-plugin-tailwindcss-cleaner/blob/main/compare/.svelte-kit/output/client/_app/immutable/assets/2.D6LpQ2Rr.css) | [4.06kb](https://github.com/madmoizo/vite-plugin-tailwindcss-cleaner/blob/main/.svelte-kit/output/client/_app/immutable/assets/2.D6LpQ2Rr.css) |
 
-![image](https://github.com/user-attachments/assets/e022c34f-04ea-4e14-9395-d1f1b06c3c27)
+![image](https://github.com/user-attachments/assets/95dbf5a2-49b5-4501-a99d-9a08fa69325a)
