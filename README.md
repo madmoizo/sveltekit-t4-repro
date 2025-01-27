@@ -15,7 +15,7 @@ npm i vite-plugin-tailwindcss-cleaner
 
 ## How to use?
 ```js
-import { defineConfig } from 'vite'
+import { defineConfig } from "vite"
 import tailwindcss from "@tailwindcss/vite"
 import tailwindcssCleaner from "vite-plugin-tailwindcss-cleaner"
 
