@@ -66,6 +66,57 @@ function state_unsafe_mutation() {
 }
 let legacy_mode_flag = false;
 let tracing_mode_flag = false;
+function hydration_mismatch(location) {
+  {
+    console.warn(`https://svelte.dev/e/hydration_mismatch`);
+  }
+}
+let component_context = null;
+function set_component_context(context) {
+  component_context = context;
+}
+function push(props, runes = false, fn) {
+  component_context = {
+    p: component_context,
+    c: null,
+    e: null,
+    m: false,
+    s: props,
+    x: null,
+    l: null
+  };
+}
+function pop(component) {
+  const context_stack_item = component_context;
+  if (context_stack_item !== null) {
+    const component_effects = context_stack_item.e;
+    if (component_effects !== null) {
+      var previous_effect = active_effect;
+      var previous_reaction = active_reaction;
+      context_stack_item.e = null;
+      try {
+        for (var i = 0; i < component_effects.length; i++) {
+          var component_effect = component_effects[i];
+          set_active_effect(component_effect.effect);
+          set_active_reaction(component_effect.reaction);
+          effect(component_effect.fn);
+        }
+      } finally {
+        set_active_effect(previous_effect);
+        set_active_reaction(previous_reaction);
+      }
+    }
+    component_context = context_stack_item.p;
+    context_stack_item.m = true;
+  }
+  return (
+    /** @type {T} */
+    {}
+  );
+}
+function is_runes() {
+  return !legacy_mode_flag;
+}
 function source(v, stack) {
   var signal = {
     f: 0,
@@ -135,11 +186,6 @@ function mark_reactions(signal, status) {
     }
   }
 }
-function hydration_mismatch(location) {
-  {
-    console.warn(`https://svelte.dev/e/hydration_mismatch`);
-  }
-}
 let hydrating = false;
 function set_hydrating(value) {
   hydrating = value;
@@ -191,23 +237,15 @@ function get_next_sibling(node) {
 function clear_text_content(node) {
   node.textContent = "";
 }
-function destroy_derived_children(derived) {
-  var children = derived.children;
-  if (children !== null) {
-    derived.children = null;
-    for (var i = 0; i < children.length; i += 1) {
-      var child = children[i];
-      if ((child.f & DERIVED) !== 0) {
-        destroy_derived(
-          /** @type {Derived} */
-          child
-        );
-      } else {
-        destroy_effect(
-          /** @type {Effect} */
-          child
-        );
-      }
+function destroy_derived_effects(derived) {
+  var effects = derived.effects;
+  if (effects !== null) {
+    derived.effects = null;
+    for (var i = 0; i < effects.length; i += 1) {
+      destroy_effect(
+        /** @type {Effect} */
+        effects[i]
+      );
     }
   }
 }
@@ -230,7 +268,7 @@ function execute_derived(derived) {
   set_active_effect(get_derived_parent_effect(derived));
   {
     try {
-      destroy_derived_children(derived);
+      destroy_derived_effects(derived);
       value = update_reaction(derived);
     } finally {
       set_active_effect(prev_active_effect);
@@ -248,10 +286,10 @@ function update_derived(derived) {
   }
 }
 function destroy_derived(derived) {
-  destroy_derived_children(derived);
+  destroy_derived_effects(derived);
   remove_reactions(derived, 0);
   set_signal_status(derived, DESTROYED);
-  derived.v = derived.children = derived.deps = derived.ctx = derived.reactions = null;
+  derived.v = derived.deps = derived.ctx = derived.reactions = null;
 }
 function push_effect(effect2, parent_effect) {
   var parent_last = parent_effect.last;
@@ -269,7 +307,6 @@ function create_effect(type, fn, sync, push2 = true) {
   var effect2 = {
     ctx: component_context,
     deps: null,
-    deriveds: null,
     nodes_start: null,
     nodes_end: null,
     f: type | DIRTY,
@@ -308,7 +345,7 @@ function create_effect(type, fn, sync, push2 = true) {
         /** @type {Derived} */
         active_reaction
       );
-      (derived.children ??= []).push(effect2);
+      (derived.effects ??= []).push(effect2);
     }
   }
   return effect2;
@@ -347,15 +384,6 @@ function execute_effect_teardown(effect2) {
     }
   }
 }
-function destroy_effect_deriveds(signal) {
-  var deriveds = signal.deriveds;
-  if (deriveds !== null) {
-    signal.deriveds = null;
-    for (var i = 0; i < deriveds.length; i += 1) {
-      destroy_derived(deriveds[i]);
-    }
-  }
-}
 function destroy_effect_children(signal, remove_dom = false) {
   var effect2 = signal.first;
   signal.first = signal.last = null;
@@ -391,7 +419,6 @@ function destroy_effect(effect2, remove_dom = true) {
     removed = true;
   }
   destroy_effect_children(effect2, remove_dom && !removed);
-  destroy_effect_deriveds(effect2);
   remove_reactions(effect2, 0);
   set_signal_status(effect2, DESTROYED);
   var transitions = effect2.transitions;
@@ -489,12 +516,8 @@ function set_untracked_writes(value) {
 let write_version = 1;
 let read_version = 0;
 let skip_reaction = false;
-let component_context = null;
 function increment_write_version() {
   return ++write_version;
-}
-function is_runes() {
-  return !legacy_mode_flag;
 }
 function check_dirtiness(reaction) {
   var flags = reaction.f;
@@ -620,9 +643,13 @@ function update_reaction(reaction) {
   skipped_deps = 0;
   untracked_writes = null;
   active_reaction = (flags & (BRANCH_EFFECT | ROOT_EFFECT)) === 0 ? reaction : null;
-  skip_reaction = !is_flushing_effect && (flags & UNOWNED) !== 0;
+  skip_reaction = (flags & UNOWNED) !== 0 && (!is_flushing_effect || // If we were previously not in a reactive context and we're reading an unowned derived
+  // that was created inside another reaction, then we don't fully know the real owner and thus
+  // we need to skip adding any reactions for this unowned
+  (previous_reaction === null || previous_untracking) && /** @type {Derived} */
+  reaction.parent !== null);
   derived_sources = null;
-  component_context = reaction.ctx;
+  set_component_context(reaction.ctx);
   untracking = false;
   read_version++;
   try {
@@ -672,7 +699,7 @@ function update_reaction(reaction) {
     active_reaction = previous_reaction;
     skip_reaction = previous_skip_reaction;
     derived_sources = prev_derived_sources;
-    component_context = previous_component_context;
+    set_component_context(previous_component_context);
     untracking = previous_untracking;
   }
 }
@@ -698,6 +725,10 @@ function remove_reaction(signal, dependency) {
     if ((dependency.f & (UNOWNED | DISCONNECTED)) === 0) {
       dependency.f ^= DISCONNECTED;
     }
+    destroy_derived_effects(
+      /** @type {Derived} **/
+      dependency
+    );
     remove_reactions(
       /** @type {Derived} **/
       dependency,
@@ -727,7 +758,6 @@ function update_effect(effect2) {
     } else {
       destroy_effect_children(effect2);
     }
-    destroy_effect_deriveds(effect2);
     execute_effect_teardown(effect2);
     var teardown = update_reaction(effect2);
     effect2.teardown = typeof teardown === "function" ? teardown : null;
@@ -849,12 +879,16 @@ function process_effects(effect2, collected_effects) {
         if (is_branch) {
           current_effect.f ^= CLEAN;
         } else {
+          var previous_active_reaction = active_reaction;
           try {
+            active_reaction = current_effect;
             if (check_dirtiness(current_effect)) {
               update_effect(current_effect);
             }
           } catch (error) {
             handle_error(error, current_effect, null, current_effect.ctx);
+          } finally {
+            active_reaction = previous_active_reaction;
           }
         }
         var child = current_effect.first;
@@ -942,31 +976,15 @@ function get(signal) {
       }
     }
   } else if (is_derived && /** @type {Derived} */
-  signal.deps === null) {
+  signal.deps === null && /** @type {Derived} */
+  signal.effects === null) {
     var derived = (
       /** @type {Derived} */
       signal
     );
     var parent = derived.parent;
-    var target = derived;
-    while (parent !== null) {
-      if ((parent.f & DERIVED) !== 0) {
-        var parent_derived = (
-          /** @type {Derived} */
-          parent
-        );
-        target = parent_derived;
-        parent = parent_derived.parent;
-      } else {
-        var parent_effect = (
-          /** @type {Effect} */
-          parent
-        );
-        if (!parent_effect.deriveds?.includes(target)) {
-          (parent_effect.deriveds ??= []).push(target);
-        }
-        break;
-      }
+    if (parent !== null && (parent.f & UNOWNED) === 0) {
+      derived.f ^= UNOWNED;
     }
   }
   if (is_derived) {
@@ -981,45 +999,6 @@ function get(signal) {
 const STATUS_MASK = ~(DIRTY | MAYBE_DIRTY | CLEAN);
 function set_signal_status(signal, status) {
   signal.f = signal.f & STATUS_MASK | status;
-}
-function push(props, runes = false, fn) {
-  component_context = {
-    p: component_context,
-    c: null,
-    e: null,
-    m: false,
-    s: props,
-    x: null,
-    l: null
-  };
-}
-function pop(component) {
-  const context_stack_item = component_context;
-  if (context_stack_item !== null) {
-    const component_effects = context_stack_item.e;
-    if (component_effects !== null) {
-      var previous_effect = active_effect;
-      var previous_reaction = active_reaction;
-      context_stack_item.e = null;
-      try {
-        for (var i = 0; i < component_effects.length; i++) {
-          var component_effect = component_effects[i];
-          set_active_effect(component_effect.effect);
-          set_active_reaction(component_effect.reaction);
-          effect(component_effect.fn);
-        }
-      } finally {
-        set_active_effect(previous_effect);
-        set_active_reaction(previous_reaction);
-      }
-    }
-    component_context = context_stack_item.p;
-    context_stack_item.m = true;
-  }
-  return (
-    /** @type {T} */
-    {}
-  );
 }
 const PASSIVE_EVENTS = ["touchstart", "touchmove"];
 function is_passive_event(name) {
@@ -1524,7 +1503,7 @@ const options = {
 		<div class="error">
 			<span class="status">` + status + '</span>\n			<div class="message">\n				<h1>' + message + "</h1>\n			</div>\n		</div>\n	</body>\n</html>\n"
   },
-  version_hash: "tst6k5"
+  version_hash: "1r3l7w7"
 };
 async function get_hooks() {
   let handle;
