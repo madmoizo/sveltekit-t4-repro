@@ -1,8 +1,4 @@
 .devcontainer
-.svelte-kit
-compare
 node_modules
-src
-static
-svelte.*
+build-*
 vite.*

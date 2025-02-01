@@ -30,6 +30,6 @@ export default defineConfig({
 ## Is it worth it?
 |            | No plugin | With plugin |     
 |------------|-----------|--------|
-| CSS output | [17.3kb](https://github.com/madmoizo/vite-plugin-tailwindcss-cleaner/blob/main/build-no-plugin/assets/index-JtgcKGRz.css) | [4.07kb](https://github.com/madmoizo/vite-plugin-tailwindcss-cleaner/blob/main/build-with-plugin/assets/index-JtgcKGRz.css) |
+| CSS output | [17.3kb](https://github.com/madmoizo/vite-plugin-tailwindcss-cleaner/blob/main/build-no-plugin/assets/index-Dw0kXIKz.css) | [4.04kb](https://github.com/madmoizo/vite-plugin-tailwindcss-cleaner/blob/main/build-with-plugin/assets/index-Dw0kXIKz.css) |
 
 ![image](https://github.com/user-attachments/assets/95dbf5a2-49b5-4501-a99d-9a08fa69325a)
