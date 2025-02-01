@@ -1,4 +1,20 @@
 import "clsx";
+var is_array = Array.isArray;
+var index_of = Array.prototype.indexOf;
+var array_from = Array.from;
+var define_property = Object.defineProperty;
+var get_descriptor = Object.getOwnPropertyDescriptor;
+const noop = () => {
+};
+function equals(value) {
+  return value === this.v;
+}
+function safe_not_equal(a, b) {
+  return a != a ? b == b : a !== b || a !== null && typeof a === "object" || typeof a === "function";
+}
+function safe_equals(value) {
+  return !safe_not_equal(value, this.v);
+}
 const HYDRATION_START = "[";
 const HYDRATION_END = "]";
 const HYDRATION_ERROR = {};
@@ -82,11 +98,20 @@ function render(component, options = {}) {
 }
 export {
   HYDRATION_ERROR as H,
-  HYDRATION_START as a,
-  HYDRATION_END as b,
-  pop as c,
-  getContext as g,
+  is_array as a,
+  HYDRATION_START as b,
+  HYDRATION_END as c,
+  define_property as d,
+  equals as e,
+  array_from as f,
+  get_descriptor as g,
+  setContext as h,
+  index_of as i,
+  pop as j,
+  getContext as k,
+  safe_not_equal as l,
+  noop as n,
   push as p,
   render as r,
-  setContext as s
+  safe_equals as s
 };
