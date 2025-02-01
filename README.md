@@ -30,6 +30,6 @@ export default defineConfig({
 ## Is it worth it?
 |            | No plugin | With plugin |     
 |------------|-----------|--------|
-| CSS output | [17.3kb](https://github.com/madmoizo/vite-plugin-tailwindcss-cleaner/blob/main/compare/.svelte-kit/output/client/_app/immutable/assets/2.qDMvbHcx.css) | [4.07kb](https://github.com/madmoizo/vite-plugin-tailwindcss-cleaner/blob/main/.svelte-kit/output/client/_app/immutable/assets/2.m_tphMyF.css) |
+| CSS output | [17.3kb](https://github.com/madmoizo/vite-plugin-tailwindcss-cleaner/blob/main/build-no-plugin/assets/index-JtgcKGRz.css) | [4.07kb](https://github.com/madmoizo/vite-plugin-tailwindcss-cleaner/blob/main/build-with-plugin/assets/index-JtgcKGRz.css) |
 
 ![image](https://github.com/user-attachments/assets/95dbf5a2-49b5-4501-a99d-9a08fa69325a)
