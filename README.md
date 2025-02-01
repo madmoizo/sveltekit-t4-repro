@@ -32,4 +32,4 @@ export default defineConfig({
 |------------|-----------|--------|
 | CSS output | [17.3kb](https://github.com/madmoizo/vite-plugin-tailwindcss-cleaner/blob/main/build-no-plugin/assets/index-Dw0kXIKz.css) | [4.04kb](https://github.com/madmoizo/vite-plugin-tailwindcss-cleaner/blob/main/build-with-plugin/assets/index-Dw0kXIKz.css) |
 
-![image](https://github.com/user-attachments/assets/95dbf5a2-49b5-4501-a99d-9a08fa69325a)
+![image](https://github.com/user-attachments/assets/f5424288-d964-4599-a2bb-20c3c919a337)
