@@ -1,7 +1,7 @@
 # vite-plugin-tailwindcss-cleaner
 
 ## Why?
-Tailwind v4 as been released and the tailwind vite plugin does not (yet) eliminate dead css.
+Tailwind v4 as been released but the official tailwind vite plugin does not (yet) eliminate dead css.
 
 ## What does it do?
 - Remove unused custom properties in cascade
@@ -30,6 +30,7 @@ export default defineConfig({
 ## Is it worth it?
 |            | No plugin | With plugin |     
 |------------|-----------|--------|
-| CSS output | [17.3kb](https://github.com/madmoizo/vite-plugin-tailwindcss-cleaner/blob/main/build-no-plugin/assets/index-Dw0kXIKz.css) | [4.04kb](https://github.com/madmoizo/vite-plugin-tailwindcss-cleaner/blob/main/build-with-plugin/assets/index-Dw0kXIKz.css) |
+| CSS output | [17.3kb](https://github.com/madmoizo/vite-plugin-tailwindcss-cleaner/blob/main/build-no-plugin/assets/index-CDc_evQZ.css) | [4.04kb](https://github.com/madmoizo/vite-plugin-tailwindcss-cleaner/blob/main/build-with-plugin/assets/index-CDc_evQZ.css) |
 
-![image](https://github.com/user-attachments/assets/f5424288-d964-4599-a2bb-20c3c919a337)
+![image](https://github.com/user-attachments/assets/b5406ef0-94f5-4511-ac50-12731c92a5e5)
+
