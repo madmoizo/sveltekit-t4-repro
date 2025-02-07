@@ -1,4 +1,4 @@
-function stringToKo (str) {
+function stringToKb (str) {
 	const byteSize = new Blob([str]).size
 	return byteSize / 1024
 }
@@ -9,7 +9,7 @@ export default function tailwindcssCleaner() {
 		generateBundle(options, bundle) {
 			for (const [fileName, file] of Object.entries(bundle)) {
 				if (file.type === "asset" && fileName.endsWith(".css") && typeof file.source === "string") {
-					const defaultSize = stringToKo(file.source)
+					const defaultSize = stringToKb(file.source)
 					const logs = {}
 
 					// Remove unused custom properties
@@ -76,12 +76,12 @@ export default function tailwindcssCleaner() {
 						Removed: removedKeyframesCount
 					}
 
-					const cleanedSize = stringToKo(file.source)
+					const cleanedSize = stringToKb(file.source)
 
 					console.log("\x1b[34m%s\x1b[0m", `\n\n[plugin] Tailwindcss Cleaner`)
 					console.table(logs)
 					console.table({
-						"Size (Ko)" : {
+						"Size (Kb)" : {
 							"Before": Number(defaultSize.toFixed(2)),
 							"After": Number(cleanedSize.toFixed(2)),
 							"Saved": Number((defaultSize - cleanedSize).toFixed(2))
