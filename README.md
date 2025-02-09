@@ -1,5 +1,8 @@
 # vite-plugin-tailwindcss-cleaner
 
+## Deprecated
+The official tailwind vite plugin support this feature since Tailwind CSS v4.0.5
+
 ## Why?
 Tailwind v4 as been released but the official tailwind vite plugin does not (yet) eliminate dead css.
 
